@@ -5,3 +5,13 @@
 */
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
+// Menu
+
+const dropdownMenu = document.querySelector(".dropdown-menu");
+const dropdownButton = document.querySelector(".dropdown-button");
+
+if (dropdownButton) {
+  dropdownButton.addEventListener("click", () => {
+    dropdownMenu.classList.toggle("show");
+  });
+}

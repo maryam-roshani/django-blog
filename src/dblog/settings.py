@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os 
+# import mimetypes
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,8 +40,62 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'blog',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
+
+LOGIN_REDIRECT_URL ='/'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_UNIQUE = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+
+        "APP": {
+            "client_id": "123",
+            "secret": "456",
+            "key": ""
+        },
+
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        }
+    }
+}
+# def verified_callback(user):
+#     user.is_active = True
+
+
+# EMAIL_VERIFIED_CALLBACK = verified_callback
+# EMAIL_PAGE_DOMAIN = 'http://127.0.0.1:8000/'
+# EMAIL_MULTI_USER = False
+# ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = '@gmail.com'
+# EMAIL_HOST_PASSWORD = ''  # os.environ['password_key'] suggested
+# EMAIL_USE_TLS = True
+
+AUTH_USER_MODEL = 'blog.User'
+
+# if DEBUG:
+#     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -69,6 +124,14 @@ TEMPLATES = [
         },
     },
 ]
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+]
+
 
 WSGI_APPLICATION = 'dblog.wsgi.application'
 
@@ -131,3 +194,44 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SITE_ID = 2
+
+# def verified_callback(user):
+#     user.is_active = True
+
+
+# EMAIL_VERIFIED_CALLBACK = verified_callback
+# EMAIL_FROM_ADDRESS = '@gmail.com'
+# EMAIL_MAIL_SUBJECT = 'Confirm your email'
+# EMAIL_MAIL_HTML = 'mail.html'
+# EMAIL_MAIL_PLAIN = 'mail_body.txt'
+# EMAIL_MAIL_TOKEN_LIFE = 60 * 60
+# EMAIL_MAIL_PAGE_TEMPLATE = 'confirm_template.html' 
+# EMAIL_PAGE_DOMAIN = 'http://127.0.0.1:8000/'
+# EMAIL_MULTI_USER = False  # optional (defaults to False)
+
+# # For Django Email Backend
+# ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = '@gmail.com'
+# EMAIL_HOST_PASSWORD = ''  # os.environ['password_key'] suggested
+# EMAIL_USE_TLS = True
+#django-allauth registraion settings
+# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+  
+# 1 day
+# ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 
+
+
+# mimetypes.add_type("image/svg+xml", ".svg", True)
+# mimetypes.add_type("image/svg+xml", ".svgz", True)
+
+# LOGIN_REDIRECT_URL 
+
+
