@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Post, Comment, User, Message, MessageLike, CommentLike
-from .forms import CommentForm, PostForm
+from .forms import CommentForm, PostForm, UserForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.http import Http404
@@ -10,19 +10,33 @@ from django.db.models import Q
 
 # Create your views here.
 def home(request):
+	q = request.GET.get('q') if request.GET.get('q') != None else ''
 	posts = Post.objects.all()
+	mosts = Post.objects.filter(
+		Q(title__icontains=q)|
+		Q(topic__icontains=q)|
+		Q(text__icontains=q))
 	tost = {}
 	if posts :
-		tost = Post.objects.latest('id')
+		tost = posts.latest('id')
+		if q :
+			if mosts:
+				tost = {}
+				posts = mosts
+			else:
+				tost = {}
+				messages.error(request, 'nothing is found')
+
 	context = {'posts': posts, 'tost': tost}
 	return render(request, 'home.html', context)
 
 
+@login_required(login_url='accounts/login')
 def post_detail(request, slug):
 	post = Post.objects.get(slug=slug)
-	messages = post.messages.all()
+	post_messages = post.messages.all()
 
-	for message in messages :
+	for message in post_messages :
 		bike = MessageLike.objects.filter(
 		Q(user = request.user) & 
 		Q(message = message)
@@ -39,7 +53,7 @@ def post_detail(request, slug):
 		else:
 			messages.error(request, 'you are not allowed to send message')
 	
-	context = {'post':post, 'messages':messages}
+	context = {'post':post, 'post_messages':post_messages}
 	return render(request, 'blog/blog_detail.html', context)
 
 
@@ -242,48 +256,26 @@ def message_delete(request, pk):
 		return redirect('blog:detail', slug=post.slug)
 
 
-# def comment_create_view(request, pk):
-# 	form = CommentForm()
-# 	message = Message.objects.get(id=pk)
-# 	room = message.room
-# 	if request.method == "POST" :
-# 		comment = Comment.objects.create(
-# 			owner=request.user,
-# 			message=message,
-# 			body=request.POST.get('body'))
-# 		participants = room.participants.add(request.user)
-# 		return redirect('rooms:room', pk=room.id)
-# 	context = {'form' : form }
-# 	return render(request, 'rooms/roomCreate_old.html', context )
+
+def userprofile(request,  pk):
+	user = User.objects.get(id=pk)
+	posts = user.post_set.all()
+	context = {'user':user, 'posts':posts}
+	return render(request, 'blog/profile.html', context)
 
 
 
+@login_required(login_url='login')
+def editUser(request):
+	user = request.user
+	form = UserForm(instance=user)
+	if request.method == 'POST':
+		form = UserForm(request.POST, request.FILES, instance=user)
+		if form.is_valid():
+			form.save()
+			return redirect('blog:user-profile', pk=user.id)
 
-
-
-
-
-# def post_detail(request, slug=None):
-# 	post_obj = None
-# 	if slug is not None:
-# 		try:
-# 			post_obj = Post.objects.get(slug=slug)
-# 			comments = post_obj.comments.all()
-# 			new_comment = None
-
-# 			if request.method == 'POST':
-# 				form = CommentForm(request.POST)
-# 				if form.is_valid():
-# 					new_comment = form.save(commit=False)
-# 					new_comment.post = post_obj
-# 					new_comment.commenter = request.user
-# 					new_comment.save()
-# 			else :
-# 				form = CommentForm()
-# 		except Post.DoesNotExist:
-# 			raise Http404
-# 	context = {'post':post_obj, 'comments':comments, 'form':form}
-# 	return render(request, 'blog/blog_detail.html', context=context)
-
+	context = {'form':form}
+	return render(request, 'account/edit_user.html', context)
 
 

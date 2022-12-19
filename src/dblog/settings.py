@@ -85,8 +85,8 @@ SOCIALACCOUNT_PROVIDERS = {
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = 587
-# EMAIL_HOST_USER = '@gmail.com'
-# EMAIL_HOST_PASSWORD = ''  # os.environ['password_key'] suggested
+# EMAIL_HOST_USER = 'maryamroshani777@gmail.com'
+# EMAIL_HOST_PASSWORD = 'fakmhvvuwxtydxvc'  # os.environ['password_key'] suggested
 # EMAIL_USE_TLS = True
 
 AUTH_USER_MODEL = 'blog.User'
@@ -202,7 +202,7 @@ SITE_ID = 2
 
 
 # EMAIL_VERIFIED_CALLBACK = verified_callback
-# EMAIL_FROM_ADDRESS = '@gmail.com'
+# EMAIL_FROM_ADDRESS = 'maryamroshani777@gmail.com'
 # EMAIL_MAIL_SUBJECT = 'Confirm your email'
 # EMAIL_MAIL_HTML = 'mail.html'
 # EMAIL_MAIL_PLAIN = 'mail_body.txt'
@@ -216,8 +216,8 @@ SITE_ID = 2
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = 587
-# EMAIL_HOST_USER = '@gmail.com'
-# EMAIL_HOST_PASSWORD = ''  # os.environ['password_key'] suggested
+# EMAIL_HOST_USER = 'maryamroshani777@gmail.com'
+# EMAIL_HOST_PASSWORD = 'fakmhvvuwxtydxvc'  # os.environ['password_key'] suggested
 # EMAIL_USE_TLS = True
 #django-allauth registraion settings
 # ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1

@@ -17,5 +17,7 @@ urlpatterns = [
     path('message-delete/<str:pk>', views.message_delete, name='message-delete'),
     path('message-like/<str:pk>', views.message_like, name='message-like'),
     path('comment-like/<str:pk>', views.comment_like, name='comment-like'),
+    path('profile/<str:pk>', views.userprofile, name='user-profile'),
+    path('edit-user/', views.editUser, name='edit-user'),
 ]
 								
