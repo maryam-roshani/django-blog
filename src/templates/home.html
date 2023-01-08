@@ -46,7 +46,7 @@
                 </div>
             </div>
             <!-- Pagination-->
-            <nav aria-label="Pagination">
+<!--             <nav aria-label="Pagination">
                 <hr class="my-0" />
                 <ul class="pagination justify-content-center my-4">
                     <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
@@ -58,11 +58,39 @@
                     <li class="page-item"><a class="page-link" href="#!">Older</a></li>
                 </ul>
             </nav>
+ -->
+            <!-- Pagination -->
+            <nav aria-label="Pagination">
+                <hr class="my-0" />
+                <ul class='pagination justify-content-center my-4'>
+                  {% if posts.has_previous %}
+                    <li class="mx-1"><a href='{% url "blog:home" posts.previous_page_number %}'>Previous</a></li>
+                  {% else %}
+                    <li class='mx-1 disabled'><span >Previous</span></li>
+                  {% endif %}
+
+                  {% for i in posts.paginator.page_range %}
+                    {% if posts.number == i %}
+                      <li class='active mx-1'><span>{{ i }}</span></li>
+                      {% else %}
+                      <li class="mx-1"><a href='{% url "blog:home" i %}'>{{ i }}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  
+                  {% if posts.has_next %}
+                    <li class="mx-1"><a href='{% url "blog:home" posts.next_page_number %}' >Next</a></li>
+                  {% else %}
+                    <li class="mx-1"><span class='disabled'>Next</span></li> 
+                  {% endif %}
+                </ul>
+            </nav>
+                <!-- END Pagination -->
+
         </div>
         <!-- Side widgets-->
         <div class="col-lg-4">
             <!-- Search widget-->
-            <form class="card mb-4" method="get" action= "{% url 'blog:home' %}">
+            <form class="card mb-4" method="get" action= "{% url 'blog:home' 1 %}">
                 <div class="card-header">Search</div>
                 <div class="card-body">
                     <div class="input-group">
@@ -79,8 +107,8 @@
                         <div class="col-sm-6">
                             <ul class="list-unstyled mb-0">
                                 {% for post in posts %}
-                                    <li><a href="{% url 'blog:home' %}?q={{post.topic}}">{{post.topic}} <span></li>
-                                    <li><a href="{% url 'blog:home' %}?q={{post.title}}">{{post.title}} <span></li>
+                                    <li><a href="{% url 'blog:home' 1 %}?q={{post.topic}}">{{post.topic}} <span></li>
+                                    <li><a href="{% url 'blog:home' 1 %}?q={{post.title}}">{{post.title}} <span></li>
                                 {% endfor %}
                             </ul>
                         </div>

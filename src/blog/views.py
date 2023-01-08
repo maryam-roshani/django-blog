@@ -6,10 +6,11 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.contrib import messages
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage
 
 
 # Create your views here.
-def home(request):
+def home(request, page=1):
 	q = request.GET.get('q') if request.GET.get('q') != None else ''
 	posts = Post.objects.all()
 	mosts = Post.objects.filter(
@@ -26,9 +27,16 @@ def home(request):
 			else:
 				tost = {}
 				messages.error(request, 'nothing is found')
+	paginator = Paginator(posts, 5)
+	try:
+		posts = paginator.page(page)
+	except EmptyPage:
+		# if we exceed the page limit we return the last page 
+		posts = paginator.page(paginator.num_pages)
 
 	context = {'posts': posts, 'tost': tost}
 	return render(request, 'home.html', context)
+
 
 
 @login_required(login_url='accounts/login')

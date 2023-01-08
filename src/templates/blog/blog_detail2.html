@@ -2,7 +2,7 @@
 
 <div class="col-lg-4">
             <!-- Search widget-->
-            <form class="card mb-4" method="get" action= "{% url 'blog:home' %}">
+            <form class="card mb-4" method="get" action= "{% url 'blog:home' 1 %}">
                 <div class="card-header">Search</div>
                 <div class="card-body">
                     <div class="input-group">
@@ -19,8 +19,8 @@
                         <div class="col-sm-6">
                             <ul class="list-unstyled mb-0">
                                 {% for post in posts %}
-                                    <li><a href="{% url 'blog:home' %}?q={{post.topic}}">{{post.topic}} <span></li>
-                                    <li><a href="{% url 'blog:home' %}?q={{post.title}}">{{post.title}} <span></li>
+                                    <li><a href="{% url 'blog:home' 1 %}?q={{post.topic}}">{{post.topic}} <span></li>
+                                    <li><a href="{% url 'blog:home' 1 %}?q={{post.title}}">{{post.title}} <span></li>
                                 {% endfor %}
                             </ul>
                         </div>
