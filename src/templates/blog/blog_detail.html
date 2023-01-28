@@ -30,36 +30,42 @@
                                 </form>
                                 <div class="d-flex mb-4">
                                     <!-- Parent comment-->
+                                    <hr/>
                                     {% for message in post_messages %}
-                                        <div class="flex-shrink-0"><img class="rounded-circle" src="{{message.sender.avatar.url}}" alt="..." /></div>
-                                        <div class="ms-3">
-                                        <div class="fw-bold">{{message.sender.username}}</div>
-                                        <div><small>{{message.date_created|timesince}} ago</small></div>
-                                        {% if request.user == message.sender %}
-                                            <a href='{% url "blog:message-edit" message.id %}'>edit</a> 
-                                            <a href='{% url "blog:message-delete" message.id %}'>
-                                          <div >
-                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                                              <title>remove</title>
-                                              <path
-                                                d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"
-                                              ></path>
-                                            </svg>
-                                          </div></a>
-                                        {% endif %}
-                                        <p>{{message.body}}</p>
-                                        {% if user.is_authenticated %}
-                                            <button><a href="{% url 'blog:create-reply' message.id %}">reply</a></button>
-                                            {% if message.replied %}
-                                                <button><a href="{% url 'blog:show-reply' message.id %}">Show Replies</a></button>
+                                    <blockquote>
+                                        <div>
+                                            <div class="flex-shrink-0"><img class="rounded-circle" src="{{message.sender.avatar.url}}" alt="..." /></div>
+                                            <div class="ms-3">
+                                            <div class="fw-bold">{{message.sender.username}}</div>
+                                            <div><small>{{message.date_created|timesince}} ago</small></div>
+                                            {% if request.user == message.sender %}
+                                                <a href='{% url "blog:message-edit" message.id %}'>edit</a> 
+                                                <a href='{% url "blog:message-delete" message.id %}'>
+                                              <div >
+                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                                                  <title>remove</title>
+                                                  <path
+                                                    d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"
+                                                  ></path>
+                                                </svg>
+                                              </div></a>
                                             {% endif %}
-                                            {% if message.like %}
-                                                <a href='{% url "blog:message-like" message.id %}'><input type="image" src="{% static '/assets/red_like.ico' %}"></a>
-                                            {% else %}
-                                                <a href='{% url "blog:message-like" message.id %}'><input type="image" src="{% static '/assets/white_like.ico' %}"></a>
+                                            <p>{{message.body}}</p>
+                                            {% if user.is_authenticated %}
+                                                <button><a href="{% url 'blog:create-reply' message.id %}">reply</a></button>
+                                                {% if message.replied %}
+                                                    <button><a href="{% url 'blog:show-reply' message.id %}">Show Replies</a></button>
+                                                {% endif %}
+                                                {% if message.like %}
+                                                    <a href='{% url "blog:message-like" message.id %}'><input type="image" src="{% static '/assets/red_like.ico' %}"></a>
+                                                {% else %}
+                                                    <a href='{% url "blog:message-like" message.id %}'><input type="image" src="{% static '/assets/white_like.ico' %}"></a>
+                                                {% endif %}
                                             {% endif %}
-                                        {% endif %}
+                                        </div>
+                                    </blockquote>
                                     {% endfor %}
+                                    <hr/>
                                 </div>
                             </div>
                         </div>
