@@ -11,3 +11,4 @@ class PostSerializer(ModelSerializer):
 			'text',
 			'slug',
 		]
+		
