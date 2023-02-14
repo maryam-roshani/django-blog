@@ -1,3 +1,5 @@
+from blog.models import Post
+from .permissions import IsOwnerOrReadOnly
 from rest_framework.generics import (
 	CreateAPIView,
 	DestroyAPIView,
@@ -5,14 +7,22 @@ from rest_framework.generics import (
 	RetrieveAPIView,
 	UpdateAPIView,
 	)
-
-from blog.models import Post
-from .serializers import PostListSerializer, PostDetailSerializer, PostCreateUpdateSerializer
-
+from .serializers import (
+	PostListSerializer, 
+	PostDetailSerializer, 
+	PostCreateUpdateSerializer,
+	)
+from rest_framework.permissions import (
+	AllowAny,
+	IsAuthenticated,
+	IsAdminUser,
+	IsAuthenticatedOrReadOnly,
+	)
 
 class PostCreateAPIView(CreateAPIView):
 	queryset = Post.objects.all()
 	serializer_class = PostCreateUpdateSerializer
+	permission_classes = [IsAuthenticated]
 
 	def perform_create(self, serializer):
 		serializer.save(writer=self.request.user)
@@ -21,6 +31,7 @@ class PostCreateAPIView(CreateAPIView):
 class PostDetailAPIView(RetrieveAPIView):
 	queryset = Post.objects.all()
 	serializer_class = PostDetailSerializer
+	permission_classes = [IsOwnerOrReadOnly]
 	# lookup_field = 'slug'
 	# lookup_url_kwarg = 'abc'
 
