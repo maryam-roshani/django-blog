@@ -6,6 +6,7 @@ class PostListSerializer(ModelSerializer):
 	class Meta:
 		model = Post
 		fields = [
+			'id',
 			'topic',
 			'title',
 			'text',
@@ -24,7 +25,7 @@ class PostDetailSerializer(ModelSerializer):
 		]
 
 
-class PostCreateSerializer(ModelSerializer):
+class PostCreateUpdateSerializer(ModelSerializer):
 	class Meta:
 		model = Post
 		fields = [

@@ -8,6 +8,7 @@ from django.db.models.signals import pre_save, post_save
 import uuid
 from django.urls import reverse
 from .utils import slugify_instance_title
+from django.conf import settings
 
 # Create your models here.
 

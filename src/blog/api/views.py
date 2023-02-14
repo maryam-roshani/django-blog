@@ -7,12 +7,15 @@ from rest_framework.generics import (
 	)
 
 from blog.models import Post
-from .serializers import PostListSerializer, PostDetailSerializer, PostCreateSerializer
+from .serializers import PostListSerializer, PostDetailSerializer, PostCreateUpdateSerializer
 
 
 class PostCreateAPIView(CreateAPIView):
 	queryset = Post.objects.all()
-	serializer_class = PostCreateSerializer
+	serializer_class = PostCreateUpdateSerializer
+
+	def perform_create(self, serializer):
+		serializer.save(writer=self.request.user)
 
 
 class PostDetailAPIView(RetrieveAPIView):
@@ -24,7 +27,7 @@ class PostDetailAPIView(RetrieveAPIView):
 
 class PostUpdateAPIView(UpdateAPIView):
 	queryset = Post.objects.all()
-	serializer_class = PostDetailSerializer
+	serializer_class = PostCreateUpdateSerializer
 	
 
 class PostDeleteAPIView(DestroyAPIView):
