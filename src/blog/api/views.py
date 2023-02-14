@@ -1,6 +1,10 @@
 from django.db.models import Q
 from blog.models import Post
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.filters import (
+		SearchFilter,
+		OrderingFilter,
+	)
 from rest_framework.generics import (
 	CreateAPIView,
 	DestroyAPIView,
@@ -50,6 +54,8 @@ class PostDeleteAPIView(DestroyAPIView):
 class PostListAPIView(ListAPIView):
 	queryset = Post.objects.all()
 	serializer_class = PostListSerializer
+	filter_backends = [SearchFilter]
+	searchFields = ['title', 'topic', 'writer__username', 'text']
 
 	def get_queryset(self, *args, **kwargs):
 		# queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)
@@ -57,9 +63,9 @@ class PostListAPIView(ListAPIView):
 		query = self.request.GET.get("q")
 		if query:
 			queryset_list = queryset_list.filter(
-					Q(title__icontains=query)|
-					Q(topic__icontains=query)|
-					Q(writer__username__icontains=query) |
-					Q(text__icontains=query)
-					).distinct()
+				Q(title__icontains=query)|
+				Q(topic__icontains=query)|
+				Q(writer__username__icontains=query)|
+				Q(text__icontains=query)
+				).distinct()
 		return queryset_list
