@@ -1,4 +1,4 @@
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 from rest_framework import exceptions
 
 
@@ -14,7 +14,9 @@ class IsOwnerOrReadOnly(BasePermission):
 		return False
 
 	def has_object_permission(self, request, view, obj):
-		if obj.writer != request.user:
+		if request.method in SAFE_METHODS:
+			return True
+		elif obj.writer != request.user:
 			raise exceptions.PermissionDenied(detail=ERROR_MESSAGE)
 		return True
 
