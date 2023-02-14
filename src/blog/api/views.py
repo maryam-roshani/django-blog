@@ -54,7 +54,7 @@ class PostDeleteAPIView(DestroyAPIView):
 class PostListAPIView(ListAPIView):
 	queryset = Post.objects.all()
 	serializer_class = PostListSerializer
-	filter_backends = [SearchFilter]
+	filter_backends = [SearchFilter, OrderingFilter]
 	searchFields = ['title', 'topic', 'writer__username', 'text']
 
 	def get_queryset(self, *args, **kwargs):
