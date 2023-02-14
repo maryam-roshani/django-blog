@@ -1,3 +1,4 @@
+from django.db.models import Q
 from blog.models import Post
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.generics import (
@@ -50,3 +51,15 @@ class PostListAPIView(ListAPIView):
 	queryset = Post.objects.all()
 	serializer_class = PostListSerializer
 
+	def get_queryset(self, *args, **kwargs):
+		# queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)
+		queryset_list = Post.objects.all()
+		query = self.request.GET.get("q")
+		if query:
+			queryset_list = queryset_list.filter(
+					Q(title__icontains=query)|
+					Q(topic__icontains=query)|
+					Q(writer__username__icontains=query) |
+					Q(text__icontains=query)
+					).distinct()
+		return queryset_list
