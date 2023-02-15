@@ -1,7 +1,7 @@
 from django.db.models import Q
 from blog.models import Post
 from .permissions import IsOwnerOrReadOnly
-from .pagination import PostLimitOffsetPagination
+from .pagination import PostLimitOffsetPagination, PostPageNumberPagination
 from rest_framework.filters import (
 		SearchFilter,
 		OrderingFilter,
@@ -57,7 +57,7 @@ class PostListAPIView(ListAPIView):
 	serializer_class = PostListSerializer
 	filter_backends = [SearchFilter, OrderingFilter]
 	searchFields = ['title', 'topic', 'writer__username', 'text']
-	pagination_class = PostLimitOffsetPagination #PageNumberPagination
+	pagination_class = PostPageNumberPagination #PostLimitOffsetPagination #PageNumberPagination
 
 	def get_queryset(self, *args, **kwargs):
 		# queryset_list = super(PostListAPIView, self).get_queryset(*args, **kwargs)
